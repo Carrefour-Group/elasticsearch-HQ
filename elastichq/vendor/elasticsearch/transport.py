@@ -276,6 +276,10 @@ class Transport(object):
         :arg body: body of the request, will be serializes using serializer and
             passed to the connection
         """
+        print("hello")
+        print(body)
+        print(params)
+        print(headers)
         if body is not None:
             body = self.serializer.dumps(body)
 

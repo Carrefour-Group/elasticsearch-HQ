@@ -11,21 +11,19 @@ services:
     build:
       context: ../
       dockerfile: Dockerfile
-    image: elasticsearch-hq:develop
+    #image: elastichq:4.0.0
     container_name: elastichq
     environment:
       - HQ_DEFAULT_URL=http://elasticsearch:9200
       - HQ_DEBUG=True
-      - HQ_ENABLE_SSL=True
-      - HQ_VERIFY_CERTS=False
-      - HQ_CA_CERTS=/usr/local/share/ca-certificates/MYCA.crt
     ports:
       - 5000:5000
     networks:
       - esnet
 
   elasticsearch:
-    image: elasticsearch:2.4.6
+    image: elasticsearch:8.11.3
+
     container_name: elasticsearch
     environment:
       - cluster.name=elasticsearch
@@ -34,11 +32,14 @@ services:
       - network.publish_host=0.0.0.0
       - bootstrap.memory_lock=true
       - http.cors.enabled=true
-      - http.cors.allow-origin=*
       - http.host=0.0.0.0
       - transport.host=0.0.0.0
-      - bootstrap.system_call_filter=false
+      - discovery.type=single-node
       - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      - xpack.security.enabled=false
+      - xpack.security.transport.ssl.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - action.destructive_requires_name=false
     volumes:
       - esdata1:/usr/share/elasticsearch/data
     ports:

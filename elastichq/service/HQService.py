@@ -44,9 +44,14 @@ class HQService:
     def get_settings(self, cluster_name):
 
         try:
+            print(current_app.config.get('HQ_CLUSTER_SETTINGS')[
+                                                     'doc_id'])
+            print(current_app.config.get('HQ_CLUSTER_SETTINGS'))                                      
             connection = ConnectionService().get_connection(cluster_name)
             settings_doc = connection.get_source(index=current_app.config.get('HQ_CLUSTER_SETTINGS')[
                 'index_name'],
+                doc_id=current_app.config.get('HQ_CLUSTER_SETTINGS')[
+                                                     'doc_id'],
                                                  id=current_app.config.get('HQ_CLUSTER_SETTINGS')[
                                                      'doc_id'])
             return settings_doc

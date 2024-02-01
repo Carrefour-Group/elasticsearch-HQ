@@ -412,10 +412,7 @@ class Elasticsearch(object):
         return self.transport.perform_request('GET', _make_path(index,
             doc_type, id), params=params)
 
-    @query_params('_source', '_source_exclude', '_source_include', 'parent',
-        'preference', 'realtime', 'refresh', 'routing', 'version',
-        'version_type')
-    def get_source(self, index, doc_type, id, params=None):
+    def get_source(self, index, doc_id, id, params=None):
         """
         Get the source of a document by it's index, type and id.
         `<http://www.elastic.co/guide/en/elasticsearch/reference/current/docs-get.html>`_
@@ -442,11 +439,16 @@ class Elasticsearch(object):
         :arg version_type: Specific version type, valid choices are: 'internal',
             'external', 'external_gte', 'force'
         """
-        for param in (index, doc_type, id):
+        
+        for param in (index, doc_id, id):
+            print("okkkk")
+            print(params)
+            print(id)
+            print(doc_id)
             if param in SKIP_IN_PATH:
                 raise ValueError("Empty value passed for a required argument.")
         return self.transport.perform_request('GET', _make_path(index,
-            doc_type, id, '_source'), params=params)
+            doc_id, id, '_source'), params=params)
 
     @query_params('_source', '_source_exclude', '_source_include', 'preference',
         'realtime', 'refresh', 'routing', 'stored_fields')
